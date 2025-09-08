@@ -6,16 +6,15 @@ import (
 )
 
 func SetupRouter() *gin.Engine {
-	r := gin.Default() // Creates a Gin router with default middleware (logger, recovery)
+	r := gin.Default() 
 
-	// Group user-related routes
 	userRoutes := r.Group("/users")
 	{
-		userRoutes.POST("/", controller.CreateUserController) // Create a new user
-		// You can add more routes here, e.g.,
-		// userRoutes.GET("/:id", controller.GetUserController)
-		// userRoutes.PUT("/:id", controller.UpdateUserController)
-		// userRoutes.DELETE("/:id", controller.DeleteUserController)
+		userRoutes.POST("/", controller.CreateUserController)
+		userRoutes.GET("/email", controller.GetUserByEmailController) 
+		userRoutes.GET("/username", controller.GetUserByUsernameController) 
+		userRoutes.PUT("/:id", controller.UpdateUserController)
+
 	}
 
 	return r

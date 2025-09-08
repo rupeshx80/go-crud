@@ -1,5 +1,3 @@
-
-
 package service
 
 import (
@@ -39,4 +37,25 @@ func CreateUserService(user *models.User) (*models.User, error) {
 
 	user.Password = ""
 	return user, nil
+}
+
+func GetUserByEmailService(email string) (*models.User, error) {
+	return repository.GetUserByEmail(email)
+}
+
+func GetUserByUsernameService(username string) (*models.User, error) {
+	return repository.GetUserByUsername((username))
+}
+
+func UpdateUserService(id uint, newData map[string]interface{}) (*models.User, error) {
+	if len(newData) == 0 {
+		return nil, errors.New("no data provided for update")
+	}
+
+	updatedUser, err := repository.UpdateUser(id, newData)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedUser, nil
 }

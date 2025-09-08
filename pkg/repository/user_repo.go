@@ -46,6 +46,7 @@ func UpdateUser(id uint, newData map[string]interface{}) (*models.User, error) {
     }
 
     err = db.RJ.Model(&user).Updates(newData).Error
+	
     if err != nil {
         return nil, err
     }
