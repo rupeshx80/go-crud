@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"log"
 
 	"strconv"
 	"github.com/gin-gonic/gin"
@@ -67,28 +68,40 @@ func GetUserByUsernameController (c *gin.Context){
 }
 
 func UpdateUserController(c *gin.Context) {
-	// Get ID from URL param
-	idParam := c.Param("id")
-	id, err := strconv.Atoi(idParam)
+	idParam := c.Param("id") //for extracting path params from url
+	id, err := strconv.Atoi(idParam) 
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user id"})
 		return
 	}
 
-	// Parse JSON body
 	var newData map[string]interface{}
+	
 	if err := c.ShouldBindJSON(&newData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
 
-	// Call service
 	updatedUser, err := service.UpdateUserService(uint(id), newData)
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Success response
+	for field := range newData {
+		switch field {
+		case "email":
+			log.Printf("[INFO] User %d: email updated to %v", id, newData["email"])
+		case "username":
+			log.Printf("[INFO] User %d: username updated to %v", id, newData["username"])
+		case "password":
+			log.Printf("[INFO] User %d: password updated (hidden for security)", id)
+		default:
+			log.Printf("[INFO] User %d: %s updated to %v", id, field, newData[field])
+		}
+	}
+
 	c.JSON(http.StatusOK, gin.H{"user": updatedUser})
 }

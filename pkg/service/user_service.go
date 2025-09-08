@@ -52,6 +52,20 @@ func UpdateUserService(id uint, newData map[string]interface{}) (*models.User, e
 		return nil, errors.New("no data provided for update")
 	}
 
+		if email, ok := newData["email"].(string); ok {
+		existingUser, err := repository.GetUserByEmail(email)
+		if err == nil && existingUser.ID != id {
+			return nil, errors.New("email already in use by another user")
+		}
+	}
+
+	if username, ok := newData["username"].(string); ok {
+		existingUser, err := repository.GetUserByUsername(username)
+		if err == nil && existingUser.ID != id {
+			return nil, errors.New("username already in use by another user")
+		}
+	}
+
 	updatedUser, err := repository.UpdateUser(id, newData)
 	if err != nil {
 		return nil, err
