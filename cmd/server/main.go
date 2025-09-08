@@ -9,16 +9,14 @@ import (
 )
 
 func main() {
-    // Connect to Postgres
     db.Connect()
 
-    err := db.DB.AutoMigrate(&models.User{})
+    err := db.RJ.AutoMigrate(&models.User{})
     if err != nil {
         log.Fatal("Migration failed:", err)
     }
     log.Println("Database migrated")
 
-    // Setup Gin
     r := gin.Default()
 
     r.GET("/ping", func(c *gin.Context) {

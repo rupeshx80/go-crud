@@ -9,9 +9,9 @@ import (
     "gorm.io/gorm"
 )
 
-var db *gorm.DB
+var RJ *gorm.DB
 
-func connect (){
+func Connect(){
 	err := godotenv.Load()
 
 	 if err != nil {
@@ -24,7 +24,7 @@ func connect (){
     if err != nil {
         log.Fatal("Failed to connect to database:", err)
     }
-	
+
     log.Println("Connected to Postgres")
-    db = database
+    RJ = database
 }
