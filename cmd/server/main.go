@@ -3,6 +3,7 @@ package main
 import (
     "github.com/rupeshx80/go-crud/pkg/db"
     "github.com/rupeshx80/go-crud/pkg/models"
+    "github.com/rupeshx80/go-crud/pkg/controller"
     "log"
 
     "github.com/gin-gonic/gin"
@@ -23,5 +24,11 @@ func main() {
         c.JSON(200, gin.H{"message": "pong"})
     })
 
-    r.Run(":4000")
+    userRoutes := r.Group("/users")
+	{
+		userRoutes.POST("/", controller.CreateUserController)
+		//add more routes herefor GET, PUT, DELETE,etc
+	}
+
+    r.Run(":4040")
 }
