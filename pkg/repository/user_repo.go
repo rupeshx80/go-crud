@@ -53,3 +53,21 @@ func UpdateUser(id uint, newData map[string]interface{}) (*models.User, error) {
 
     return &user, nil
 }
+
+func DeleteUser(id uint)(*models.User, error){
+
+	var user models.User
+
+	 err := db.RJ.First(&user, id).Error
+    if err != nil {
+        return nil, err
+    }
+
+	 err = db.RJ.Delete(&user).Error
+	
+    if err != nil {
+        return nil, err
+    }
+
+    return &user, nil
+}

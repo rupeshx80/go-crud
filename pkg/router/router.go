@@ -14,6 +14,7 @@ func SetupRouter() *gin.Engine {
 		userRoutes.GET("/email", controller.GetUserByEmailController) 
 		userRoutes.GET("/username", controller.GetUserByUsernameController) 
 		userRoutes.PUT("/:id", controller.UpdateUserController)
+		userRoutes.DELETE("/delete/:id", controller.DeleteUserController)
 
 	}
 

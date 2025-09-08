@@ -77,7 +77,7 @@ func UpdateUserController(c *gin.Context) {
 	}
 
 	var newData map[string]interface{}
-	
+
 	if err := c.ShouldBindJSON(&newData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
@@ -104,4 +104,27 @@ func UpdateUserController(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"user": updatedUser})
+}
+
+
+func DeleteUserController(c *gin.Context) {
+    idParam := c.Param("id")
+    id, err := strconv.Atoi(idParam)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user ID"})
+        return
+    }
+
+    deletedUser, err := service.DeleteUserService(uint(id))
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+        return
+    }
+
+	
+
+    c.JSON(http.StatusOK, gin.H{
+        "message": "User deleted successfully",
+        "user":    deletedUser.Username,
+    })
 }

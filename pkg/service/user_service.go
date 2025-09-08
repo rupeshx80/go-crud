@@ -47,6 +47,10 @@ func GetUserByUsernameService(username string) (*models.User, error) {
 	return repository.GetUserByUsername((username))
 }
 
+func DeleteUserService(id uint)(*models.User, error) {
+	return repository.DeleteUser(id)
+}
+
 func UpdateUserService(id uint, newData map[string]interface{}) (*models.User, error) {
 	if len(newData) == 0 {
 		return nil, errors.New("no data provided for update")
