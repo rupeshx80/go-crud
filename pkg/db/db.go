@@ -6,25 +6,26 @@ import (
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
-    "gorm.io/gorm"
+	"gorm.io/gorm"
 )
 
 var RJ *gorm.DB
 
-func Connect(){
+func Connect() {
 	err := godotenv.Load()
 
-	 if err != nil {
-        log.Fatal("Error loading .env file")
-    }
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	dsn := os.Getenv("DATABASE_URL")
 
-	 database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-    if err != nil {
-        log.Fatal("Failed to connect to database:", err)
-    }
+	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-    log.Println("Connected to Postgres")
-    RJ = database
+	if err != nil {
+		log.Fatal("Failed to connect to database:", err)
+	}
+
+	log.Println("Connected to Postgres")
+	RJ = database
 }

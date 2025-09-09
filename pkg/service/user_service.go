@@ -52,12 +52,14 @@ func DeleteUserService(id uint)(*models.User, error) {
 }
 
 func UpdateUserService(id uint, newData map[string]interface{}) (*models.User, error) {
+	
 	if len(newData) == 0 {
 		return nil, errors.New("no data provided for update")
 	}
 
 		if email, ok := newData["email"].(string); ok {
 		existingUser, err := repository.GetUserByEmail(email)
+
 		if err == nil && existingUser.ID != id {
 			return nil, errors.New("email already in use by another user")
 		}

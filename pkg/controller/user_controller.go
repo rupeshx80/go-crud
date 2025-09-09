@@ -13,7 +13,7 @@ import (
 func CreateUserController(c *gin.Context) {
 	var user models.User
 
-	//binds json-body into go structs
+	//binds json-body into go structs, means deserialization
 	err := c.ShouldBindJSON(&user) 
 
 	if err != nil {
@@ -32,7 +32,6 @@ func CreateUserController(c *gin.Context) {
 }
 
 func GetUserByEmailController(c *gin.Context) {
-	// Get "email" from query params -> /users/email?email=test@gmail.com
 	email := c.Query("email")
 	if email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "email query parameter is required"})
